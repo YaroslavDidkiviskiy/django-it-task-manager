@@ -1,0 +1,7 @@
+# JetBrains IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+.venv
