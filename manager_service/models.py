@@ -1,0 +1,54 @@
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
+from django.db import models
+from datetime import date
+
+
+PRIORITY_CHOICES = [
+    ("URGENT", "Urgent"),
+    ("HIGH", "High"),
+    ("MEDIUM", "Medium"),
+    ("LOW", "Low"),
+]
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
+class TaskType(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
+class Worker(AbstractUser):
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.username} - {self.position.name}"
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    deadline = models.DateField(validators=[MinValueValidator(date.today())])
+    is_completed =models.BooleanField(default=False)
+    priority = models.CharField(choices=PRIORITY_CHOICES, max_length=10, default="MEDIUM", )
+    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    assignees = models.ManyToManyField(Worker, related_name="assigned_tasks")
+
+    def __str__(self):
+        assignees = ", ".join(worker.username for worker in self.assignees.all())
+        status = "✅" if self.is_completed else "❌"
+        return f"{self.name} — {self.get_priority_display()} [{self.task_type.name}] до {self.deadline} | {assignees} {status}"
