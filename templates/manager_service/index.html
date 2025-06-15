@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="navbar d-flex justify-content-center">
+  <div class="d-flex align-items-center">
+    <h4 class="mb-0 fw-bold">Home page</h4>
+</div>
+    </div>
+<div class="container-fluid">
+     <div class="row mb-4">
+      <div class="col-xl-4 col-md-4 mb-4">
+          <div class="card stat-card bg-white border-0">
+              <div class="card-body text-center p-4">
+                  <div class="icon bg-gradient-primary shadow-lg rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                      <i class="fas fa-users fa-2x text-white"></i>
+                  </div>
+                  <h2 class="number fw-bold display-5 mb-1">7+</h2>
+                  <p class="label text-muted text-uppercase small mb-0">WORKERS</p>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xl-4 col-md-4 mb-4">
+          <div class="card stat-card bg-white border-0">
+              <div class="card-body text-center p-4">
+                  <div class="icon bg-gradient-success shadow-lg rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                      <i class="fas fa-th-large fa-2x text-white"></i>
+                  </div>
+                  <h2 class="number fw-bold display-5 mb-1">{{ num_tasks }}</h2>
+                  <p class="label text-muted text-uppercase small mb-0">ACTIVE TASKS</p>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xl-4 col-md-4 mb-4">
+          <div class="card stat-card bg-white border-0">
+              <div class="card-body text-center p-4">
+                  <div class="icon bg-gradient-info shadow-lg rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                      <i class="fas fa-file-alt fa-2x text-white"></i>
+                  </div>
+                  <h2 class="number fw-bold display-5 mb-1">{{ completed_tasks }}</h2>
+                  <p class="label text-muted text-uppercase small mb-0">COMPLETED TASKS</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 mb-4">
+      <div class="card">
+        <div class="card-header text-center">
+          <h5 class="mb-0">Latest Tasks</h5>
+        </div>
+        <div class="card-body">
+          {% if task_list %}
+            <ul class="list-unstyled">
+              {% for task in task_list %}
+                <li>{{ task }}</li>
+                {% if not forloop.last %}
+                  <hr>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="d-flex justify-content-center align-items-center py-5">
+              <div class="text-center">
+                <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                <p class="mb-0">No tasks available</p>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
