@@ -57,4 +57,4 @@ class Task(models.Model):
         task_type_name = self.task_type.name if self.task_type else "No Type"
         assignees = ", ".join(worker.username for worker in self.assignees.all())
         status = "✅" if self.is_completed else "❌"
-        return f"{self.name} — {self.get_priority_display()} [{task_type_name}] до {self.deadline} | {assignees} {status}"
+        return f"Task: {self.name} - {self.get_priority_display()} [{task_type_name}] до {self.deadline}. \nAssignees: {assignees} {status}"
