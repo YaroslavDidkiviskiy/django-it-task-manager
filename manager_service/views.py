@@ -1,7 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from .models import Worker, Task, TaskType, Position
 
+
+@login_required
 def index(request):
     num_workers = Worker.objects.count()
     num_tasks = Task.objects.count()
