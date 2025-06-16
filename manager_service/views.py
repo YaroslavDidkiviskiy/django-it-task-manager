@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.template.context_processors import request
 from django.views import generic
 
+from .forms import WorkerSearchForm, WorkerCreationForm
 from .models import Worker, Task, TaskType, Position
 
 
@@ -42,3 +44,32 @@ class ProfileDetailView(LoginRequiredMixin, generic.DetailView):
         context['pending_tasks'] = context['total_tasks'] - context['completed_tasks']
 
         return context
+
+
+class WorkerListView(LoginRequiredMixin, generic.ListView):
+    model = Worker
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list = ..., **kwargs):
+        context = super(WorkerListView, self).get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["search_worker_form"] = WorkerSearchForm(
+            initial={"username": username}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Worker.objects.all()
+        form = WorkerSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(username__icontains=form.cleaned_data["username"])
+        return queryset
+
+
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+
+
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Worker

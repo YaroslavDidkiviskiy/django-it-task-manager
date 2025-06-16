@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Worker: {{ worker.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Worker: {{ worker.username }}</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>First name:</strong> {{ worker.first_name }}</p>
+      <p><strong>Last name:</strong> {{ worker.last_name }}</p>
+      <p><strong>Position:</strong> {{ worker.position|default:"—" }}</p>
+      <p><strong>Is staff:</strong> {{ worker.is_staff|yesno:"Yes,No" }}</p>
+    </div>
+  </div>
+
+  <h4>Assigned Tasks</h4>
+
+  {% if worker.assigned_tasks.all %}
+    {% for task in worker.assigned_tasks.all %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ task.name }}</h5>
+          <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
+          <p class="card-text text-muted"><strong>Deadline:</strong> {{ task.deadline }}</p>
+          <span class="badge bg-secondary">Priority: {{ task.priority }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">
+      No tasks for now! Chill!
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

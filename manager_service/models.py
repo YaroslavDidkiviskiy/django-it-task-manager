@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models
 from datetime import date
+from django.urls import reverse
 
 
 PRIORITY_CHOICES = [
@@ -39,6 +40,9 @@ class Worker(AbstractUser):
         if self.position:
             return f"{self.username} - {self.position.name}"
         return f"{self.username} - No Position"
+
+    def get_absolute_url(self):
+        return reverse("manager_service:worker-detail", kwargs={"pk": self.pk})
 
 class Task(models.Model):
     name = models.CharField(max_length=100)
