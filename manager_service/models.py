@@ -66,4 +66,4 @@ class Task(models.Model):
         return f"Task: {self.name} - {self.get_priority_display()} [{task_type_name}] до {self.deadline}. \nAssignees: {assignees} {status}"
 
     def get_absolute_url(self):
-        return reverse("manager_service:task-list")
+        return reverse("manager_service:task-detail")

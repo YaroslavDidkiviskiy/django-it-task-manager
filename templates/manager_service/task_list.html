@@ -36,7 +36,11 @@
           {% for task in task_list %}
             <tr>
               <td>{{ task.id }}</td>
-              <td>{{ task.name }}</td>
+              <td>
+                <a href="{% url 'task.get_absolute_url' %}">
+                  {{ task.name }}
+                </a>
+              </td>
               <td>{{ task.description }}</td>
               <td>{{ task.deadline }}</td>
               <td>{{ task.assignees_list }}</td>
