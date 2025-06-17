@@ -38,5 +38,10 @@
       No workers assigned to this position
     </div>
   {% endif %}
+  <div class="mt-4">
+    <a href="{% url 'manager_service:position-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to positions
+    </a>
+  </div>
 </div>
 {% endblock %}

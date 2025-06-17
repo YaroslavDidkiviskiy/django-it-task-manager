@@ -39,5 +39,10 @@
       No one is assigned to this task yet.
     </div>
   {% endif %}
+  <div class="mt-4">
+    <a href="{% url 'manager_service:task-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to tasks
+    </a>
+  </div>
 </div>
 {% endblock %}

@@ -33,5 +33,10 @@
       No tasks for now! Chill!
     </div>
   {% endif %}
+  <div class="mt-4">
+    <a href="{% url 'manager_service:worker-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to workers
+    </a>
+  </div>
 </div>
 {% endblock %}
