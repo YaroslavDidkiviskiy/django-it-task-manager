@@ -122,3 +122,14 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("manager_service:task-list")
+
+
+class PositionListView(LoginRequiredMixin, generic.ListView):
+    model = Position
+    paginate_by = 10
+    template_name = "manager_service/position-list.html"
+
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+    model = TaskType
+    paginate_by = 10
+    template_name = "manager_service/task_type_list.html"

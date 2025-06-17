@@ -7,18 +7,28 @@
 
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item mb-2">
-            <a href="{% url 'manager_service:index' %}" class="nav-link text-white bg-transparent">
-                <i class="fas fa-home me-2"></i> Home
+            <a href="{% url 'manager_service:index' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-house me-2"></i> Home
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a href="{% url 'manager_service:worker-list' %}" class="nav-link text-white bg-transparent">
-              <i class="fa-solid fa-users-line"></i>   Workers
+            <a href="{% url 'manager_service:worker-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-users me-2"></i> Workers
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a href="{% url 'manager_service:task-list' %}" class="nav-link text-white bg-transparent">
-                <i class="fa-solid fa-code"></i> All tasks
+            <a href="{% url 'manager_service:task-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-list-check me-2"></i> All tasks
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:task-type-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-th-list me-2"></i> Task types
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:position-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-briefcase me-2"></i> Positions
             </a>
         </li>
     </ul>
