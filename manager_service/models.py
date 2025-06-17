@@ -1,8 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models
-from datetime import date
 from django.urls import reverse
+from django.utils.timezone import now
 
 
 PRIORITY_CHOICES = [
@@ -47,7 +47,9 @@ class Worker(AbstractUser):
 class Task(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    deadline = models.DateField(validators=[MinValueValidator(date.today())])
+    deadline = models.DateTimeField(
+        validators=[MinValueValidator(now)]
+    )
     is_completed =models.BooleanField(default=False)
     priority = models.CharField(choices=PRIORITY_CHOICES, max_length=10, default="MEDIUM", )
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
@@ -62,3 +64,6 @@ class Task(models.Model):
         assignees = ", ".join(worker.username for worker in self.assignees.all())
         status = "✅" if self.is_completed else "❌"
         return f"Task: {self.name} - {self.get_priority_display()} [{task_type_name}] до {self.deadline}. \nAssignees: {assignees} {status}"
+
+    def get_absolute_url(self):
+        return reverse("manager_service:task-list")
