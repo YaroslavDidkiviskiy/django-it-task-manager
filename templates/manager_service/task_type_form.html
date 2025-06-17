@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h2 class="mb-4">{{ object|yesno:"Update,Create" }} Worker</h2>
+  <h2 class="mb-4">{{ object|yesno:"Update,Create" }} task type</h2>
 
   <form method="post" novalidate>
     {% csrf_token %}

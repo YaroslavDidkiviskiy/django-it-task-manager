@@ -5,7 +5,7 @@ from django.template.context_processors import request
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import WorkerSearchForm, WorkerCreationForm, TaskSearchForm, TaskForm
+from .forms import WorkerSearchForm, TaskSearchForm, TaskForm, WorkerForm, PositionForm, TaskTypeForm
 from .models import Worker, Task, TaskType, Position
 
 
@@ -69,12 +69,17 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
-    form_class = WorkerCreationForm
+    form_class = WorkerForm
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     template_name = "manager_service/worker_detail.html"
+
+
+class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Worker
+    form_class = WorkerForm
 
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
@@ -129,7 +134,50 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
     template_name = "manager_service/position-list.html"
 
+
+class PositionDetailView(generic.DetailView):
+    model = Position
+    template_name = "manager_service/position_detail.html"
+    context_object_name = "position"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['workers'] = Worker.objects.filter(position=self.object)
+        return context
+
+
+class PositionUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Position
+    form_class = PositionForm
+    template_name = "manager_service/position_form.html"
+
+
+class PositionCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Position
+    form_class = PositionForm
+    template_name = "manager_service/position_form.html"
+
+
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
     paginate_by = 10
+    context_object_name = 'tasktype_list'
     template_name = "manager_service/task_type_list.html"
+
+
+class TaskTypeDetailView(LoginRequiredMixin, generic.DetailView):
+    model = TaskType
+    context_object_name = 'tasktype'
+    template_name = "manager_service/task_type_detail.html"
+
+
+class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = TaskType
+    form_class = TaskTypeForm
+    template_name = "manager_service/task_type_form.html"
+
+
+class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = TaskType
+    form_class = TaskTypeForm
+    template_name = "manager_service/task_type_form.html"

@@ -5,19 +5,58 @@
 {% block content %}
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-0">Task types list</h1>
-    <a href="#" class="btn btn-primary">Add task type</a>
+    <h1 class="mb-0">Task Type List</h1>
+    <a href="{% url 'manager_service:task-type-create' %}" class="btn btn-primary">Add Task Type</a>
   </div>
 
   {% if tasktype_list %}
     <div class="list-group">
       {% for tasktype in tasktype_list %}
         <div class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="#" class="text-decoration-none">{{ tasktype.name }}</a>
-          <a href="#" class="btn btn-sm btn-outline-danger">Delete</a>
+          <div class="fw-semibold"><a href="{% url 'manager_service:task-type-detail' pk=tasktype.id %}">{{ tasktype.name }}</a></div>
+          <div>
+            <a href="#" class="btn btn-sm btn-outline-danger me-2">Delete</a>
+            <a href="{% url 'manager_service:task-type-update' pk=tasktype.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+          </div>
         </div>
       {% endfor %}
     </div>
+
+    {# Якщо потрібна пагінація, можна додати навігацію тут #}
+    {% if is_paginated %}
+      <nav aria-label="Page navigation example" class="mt-3">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                &laquo;
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+          {% endif %}
+
+          {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                &raquo;
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
   {% else %}
     <div class="alert alert-warning" role="alert">
       No task types found.

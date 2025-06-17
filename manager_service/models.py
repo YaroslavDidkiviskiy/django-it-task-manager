@@ -13,6 +13,7 @@ PRIORITY_CHOICES = [
 ]
 
 
+
 class Position(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -22,6 +23,8 @@ class Position(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("manager_service:position-detail", kwargs={"pk": self.pk})
 
 class TaskType(models.Model):
     name = models.CharField(max_length=100)
@@ -31,6 +34,9 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("manager_service:task-type-detail", kwargs={"pk": self.pk})
 
 
 class Worker(AbstractUser):
@@ -52,7 +58,7 @@ class Task(models.Model):
     )
     is_completed =models.BooleanField(default=False)
     priority = models.CharField(choices=PRIORITY_CHOICES, max_length=10, default="MEDIUM", )
-    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    task_type = models.ForeignKey(TaskType, on_delete=models.SET_NULL, null=True)
     assignees = models.ManyToManyField(Worker, related_name="assigned_tasks")
 
     def assignees_list(self):

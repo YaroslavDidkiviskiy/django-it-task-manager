@@ -6,15 +6,18 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Position List</h1>
-    <a href="#" class="btn btn-primary">Add Position</a>
+    <a href="{% url 'manager_service:position-create' %}" class="btn btn-primary">Add Position</a>
   </div>
 
   {% if position_list %}
     <div class="list-group">
       {% for position in position_list %}
         <div class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="#" class="text-decoration-none">{{ position.name }}</a>
-          <a href="#" class="btn btn-sm btn-outline-danger">Delete</a>
+          <a href="{% url 'manager_service:position-detail' pk=position.id %}" class="text-decoration-none fw-semibold">{{ position.name }}</a>
+          <div>
+            <a href="#" class="btn btn-sm btn-outline-danger me-2">Delete</a>
+            <a href="{% url 'manager_service:position-update' pk=position.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+          </div>
         </div>
       {% endfor %}
     </div>
