@@ -25,6 +25,7 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Type</th>
             <th>Description</th>
             <th>Deadline</th>
             <th>Assignees</th>
@@ -37,10 +38,11 @@
             <tr>
               <td>{{ task.id }}</td>
               <td>
-                <a href="{% url 'task.get_absolute_url' %}">
+                <a href="{{ task.get_absolute_url }}">
                   {{ task.name }}
                 </a>
               </td>
+              <td>{{ task.task_type }}</td>
               <td>{{ task.description }}</td>
               <td>{{ task.deadline }}</td>
               <td>{{ task.assignees_list }}</td>
@@ -52,7 +54,12 @@
                 {% endif %}
               </td>
               <td>
-                <a href="{% url 'manager_service:task-update' pk=task.id %}" class="btn btn-sm btn-outline-secondary">Update</a>
+                <a href="{% url 'manager_service:task-update' pk=task.id%}" class="btn btn-sm btn-outline-secondary me-2">
+                  Update
+                </a>
+                <a href="{% url 'manager_service:task-delete' pk=task.id %}" class="btn btn-sm btn-danger link-to-page">
+                  Delete
+                </a>
               </td>
             </tr>
           {% endfor %}

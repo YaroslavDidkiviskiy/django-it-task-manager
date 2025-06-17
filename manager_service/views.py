@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.template.context_processors import request
+from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import WorkerSearchForm, WorkerCreationForm, TaskSearchForm, TaskForm
@@ -112,3 +113,12 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     template_name = "manager_service/task_detail.html"
+
+
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Worker
+    success_url = reverse_lazy("manager_service:worker-list")
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Task
+    success_url = reverse_lazy("manager_service:task-list")

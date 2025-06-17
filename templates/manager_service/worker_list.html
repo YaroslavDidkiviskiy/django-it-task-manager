@@ -30,6 +30,7 @@
             <th>Full name</th>
             <th>Position</th>
             <th>Tasks</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +46,14 @@
               <td>{{ worker.get_full_name }}</td>
               <td>{{ worker.position|default:"-" }}</td>
               <td>{{ worker.assigned_tasks.count }}</td>
+              <td>
+                <a href="#" class="btn btn-sm btn-outline-secondary me-2" role="button">
+                  Update
+                </a>
+                <a href="{% url 'manager_service:worker-delete' pk=worker.id %}" class="btn btn-sm btn-danger link-to-page">
+                  Delete
+                </a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
