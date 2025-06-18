@@ -21,7 +21,7 @@ Role-Based Access Control
 Secure authentication with permission tiers
 
 🚀 Technology Stack
-Backend: Django 4.2 + Python 3.11
+Backend: Django 4.2 + Python 3.13
 
 Frontend: Bootstrap 5 + HTML5 + CSS3
 
