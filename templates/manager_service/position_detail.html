@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ position.name }} Position{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">{{ position.name }} Position</h1>
+    <a href="{% url 'manager_service:position-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i>Back to List
+    </a>
+  </div>
+
+  <h4 class="mb-3">
+    Workers with this position
+    <span class="badge bg-primary ms-2">{{ workers|length }}</span>
+  </h4>
+
+  {% if workers %}
+    <div class="list-group">
+      {% for worker in workers %}
+        <a href="{% url 'manager_service:worker-detail' pk=worker.id %}"
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">{{ worker.get_full_name }}</div>
+            <div class="text-muted small">@{{ worker.username }}</div>
+          </div>
+          <span class="badge bg-light text-dark">
+            <i class="fas fa-tasks me-1"></i>
+            {{ worker.assigned_tasks.count }}
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      <i class="fas fa-user-slash me-2"></i>
+      No workers assigned to this position
+    </div>
+  {% endif %}
+  <div class="mt-4">
+    <a href="{% url 'manager_service:position-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to positions
+    </a>
+  </div>
+</div>
+{% endblock %}

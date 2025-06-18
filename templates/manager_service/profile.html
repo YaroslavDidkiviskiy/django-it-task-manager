@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex align-items-center mb-4">
+    <div class="flex-shrink-0">
+      <i class="fas fa-user-circle fa-3x text-primary me-4"></i>
+    </div>
+    <div class="flex-grow-1">
+      <h2 class="fw-bold mb-1">{{ worker.get_full_name }}</h2>
+      <p class="text-muted mb-0">@{{ worker.username }}</p>
+      {% if worker.position %}<p class="text-muted mb-0">{{ worker.position }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="d-flex justify-content-around text-center mb-4">
+    <div>
+      <p class="text-muted mb-1">Total Tasks</p>
+      <h3 class="fw-bold">{{ total_tasks }}</h3>
+    </div>
+    <div>
+      <p class="text-muted mb-1">Completed</p>
+      <h3 class="fw-bold text-success">{{ completed_tasks }}</h3>
+    </div>
+    <div>
+      <p class="text-muted mb-1">Pending</p>
+      <h3 class="fw-bold text-warning">{{ pending_tasks }}</h3>
+    </div>
+  </div>
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0 py-2">
+      <h5 class="fw-bold mb-0 d-flex justify-content-between">
+        Assigned Tasks
+        <span class="badge bg-primary">{{ total_tasks }}</span>
+      </h5>
+    </div>
+    <div class="card-body p-0">
+      {% if worker.assigned_tasks.all %}
+        <div class="list-group">
+          {% for task in worker.assigned_tasks.all %}
+            <div class="list-group-item border-0 py-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0 fw-bold">{{ task.name }}</h6>
+                <span class="badge
+                  {% if task.priority == 'URGENT' %}bg-danger
+                  {% elif task.priority == 'HIGH' %}bg-warning
+                  {% elif task.priority == 'MEDIUM' %}bg-primary
+                  {% else %}bg-secondary{% endif %}">
+                  {{ task.get_priority_display }}
+                </span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center small text-muted mb-2">
+                <div>
+                  <i class="far fa-calendar me-1"></i> {{ task.deadline }}
+                  <span class="mx-2">•</span>
+                  <i class="fas fa-tasks me-1"></i> {{ task.task_type }}
+                </div>
+                <span class="badge bg-{% if task.is_completed %}success{% else %}light text-dark{% endif %}">
+                  {% if task.is_completed %}Completed{% else %}In Progress{% endif %}
+                </span>
+              </div>
+
+              {% if task.description %}<p class="mb-0 small text-muted">{{ task.description|truncatechars:100 }}</p>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-4">
+          <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+          <p class="mb-0 text-muted">No tasks assigned yet</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

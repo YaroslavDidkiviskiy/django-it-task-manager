@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Workers{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Worker List</h1>
+    <a href="{% url 'manager_service:worker-create' %}" class="btn btn-primary">Create a worker</a>
+  </div>
+
+  <form action="" method="get" class="mb-4">
+    <div class="input-group">
+      {{ search_worker_form.username }}
+      <button type="submit" class="btn btn-outline-primary">
+        🔍 Search
+      </button>
+    </div>
+  </form>
+
+
+
+  {% if worker_list %}
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Full name</th>
+            <th>Position</th>
+            <th>Tasks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for worker in worker_list %}
+            <tr>
+              <td>{{ worker.id }}</td>
+              <td>
+                <a href="{{ worker.get_absolute_url }}">
+                  {{ worker.username }}
+                  {% if user == worker %}<span class="badge bg-info">Me</span>{% endif %}
+                </a>
+              </td>
+              <td>{{ worker.get_full_name }}</td>
+              <td>{{ worker.position|default:"-" }}</td>
+              <td>{{ worker.assigned_tasks.count }}</td>
+              <td>
+                <a href="{% url 'manager_service:worker-update' pk=worker.id %}" class="btn btn-sm btn-outline-secondary me-2" role="button">
+                  Update
+                </a>
+                <a href="{% url 'manager_service:worker-delete' pk=worker.id %}" class="btn btn-sm btn-danger link-to-page">
+                  Delete
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  {% else %}
+    <div class="alert alert-info">
+      No workers found.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

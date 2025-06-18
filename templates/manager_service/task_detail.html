@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Task: {{ task.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Task: {{ task.name }}</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>Description:</strong> {{ task.description }}</p>
+      <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+      <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
+      <p><strong>Type:</strong> {{ task.task_type }}</p>
+      <p>
+        <strong>Status:</strong>
+        {% if task.is_completed %}
+          <span class="badge bg-success">Completed</span>
+        {% else %}
+          <span class="badge bg-warning text-dark">In progress</span>
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <h4>Assignees</h4>
+
+  {% if task.assignees.all %}
+    <ul class="list-group mb-4">
+      {% for worker in task.assignees.all %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{{ worker.get_absolute_url }}">{{ worker.get_full_name }}</a>
+          <span class="text-muted">@{{ worker.username }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info">
+      No one is assigned to this task yet.
+    </div>
+  {% endif %}
+  <div class="mt-4">
+    <a href="{% url 'manager_service:task-list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i>Back to tasks
+    </a>
+  </div>
+</div>
+{% endblock %}

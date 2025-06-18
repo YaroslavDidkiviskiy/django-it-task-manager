@@ -1,0 +1,67 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="height: 100vh;">
+    <a href="/" class="d-flex align-items-center mb-4 text-white text-decoration-none">
+        <span class="fs-4 fw-bold">IT Task Manager</span>
+    </a>
+
+    <hr class="border border-white border-1 opacity-25">
+
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:index' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-house me-2"></i> Home
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:worker-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-users me-2"></i> Workers
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:task-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-list-check me-2"></i> All tasks
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:task-type-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-th-list me-2"></i> Task types
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="{% url 'manager_service:position-list' %}" class="nav-link text-white bg-transparent d-flex align-items-center">
+                <i class="fas fa-briefcase me-2"></i> Positions
+            </a>
+        </li>
+    </ul>
+
+    <hr class="border border-white border-1 opacity-25 my-3">
+
+    {% if user.is_authenticated %}
+        <div class="d-flex flex-column">
+            <a href="{% url 'manager_service:profile-detail-view' %}" class="d-flex align-items-center text-white text-decoration-none mb-3">
+                <i class="fas fa-user-circle me-2"></i>
+                <strong>{{ user.get_username }}</strong>
+            </a>
+          <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="btn btn-outline-light btn-sm">
+                  <i class="fas fa-sign-out-alt me-2"></i> Sign out
+              </button>
+          </form>
+        </div>
+    {% else %}
+        <div class="d-grid">
+            <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+            </a>
+        </div>
+    {% endif %}
+
+    <hr class="border border-white border-1 opacity-25 mt-auto">
+
+    <div class="text-white small">
+        <p class="mt-2 small opacity-75">
+            Task resolve system<br>
+        </p>
+    </div>
+</div>
