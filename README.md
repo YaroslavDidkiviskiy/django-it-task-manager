@@ -29,7 +29,8 @@ Database: SQLite (Production: PostgreSQL ready)
 
 Authentication: Django Auth System
 
-Deployment: Docker-ready configuration
+Web Site: https://django-it-task-manager.onrender.com/workers/
+
 
 Database structure
 ![image](https://github.com/user-attachments/assets/bd34a051-1c01-422a-99ae-c8ea3a37bb01)

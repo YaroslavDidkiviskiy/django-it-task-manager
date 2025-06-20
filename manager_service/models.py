@@ -54,8 +54,11 @@ class Task(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     deadline = models.DateTimeField(
+        null=True,
+        blank=True,
         validators=[MinValueValidator(now)]
     )
+
     is_completed =models.BooleanField(default=False)
     priority = models.CharField(choices=PRIORITY_CHOICES, max_length=10, default="MEDIUM", )
     task_type = models.ForeignKey(TaskType, on_delete=models.SET_NULL, null=True)
