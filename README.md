@@ -30,7 +30,8 @@ Database: SQLite (Production: PostgreSQL ready)
 Authentication: Django Auth System
 
 Web Site: https://django-it-task-manager.onrender.com/workers/
-
+login: testuser
+password: test12345
 
 Database structure
 ![image](https://github.com/user-attachments/assets/bd34a051-1c01-422a-99ae-c8ea3a37bb01)
