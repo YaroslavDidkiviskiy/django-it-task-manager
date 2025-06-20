@@ -9,3 +9,5 @@
 .venv
 db.sqlite3
 __pycache__/
+dump.json
+manager_service/migrations
